@@ -24,4 +24,4 @@
 1. [SLAM_Book Ver. 1](https://github.com/gaoxiang12/slambook.git)
 1. [SLAM_Book Ver. 2](https://github.com/gaoxiang12/slambook2.git)
 1. [SLAM_Book English](https://github.com/gaoxiang12/slambook-en)
-1. [SLAM_Book English-pdf](../reference/slambook-en.pdf)
+1. [SLAM_Book English-pdf](../reference/papers/slambook-en.pdf)
