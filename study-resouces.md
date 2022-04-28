@@ -12,7 +12,7 @@ SLAM은 거의 40년의 역사를 가지고 있습니다. 1986년 발표된 이�
 하지만 컴퓨터 비전 영역에서 많은 영상들에서 특징을 추출 및 정합하여 비선형 최적화를 통해 대규모의 3D 재구성을 연구 이후, 이를 이용하여 3D localization을 시도하는 연구들이 활발해지기 시작했습니다. 또한 3D localization은 드론과 같은 3D로 움직일 수 있는 로봇들에 대한 관심이 증가하며 로보틱스 영역에서도 활발히 연구하기 시작했고 현재는 자율주행 영역에서도 정확하게 SLAM은 아니지만 이를 응용한 기술을 많이 적용하고 있는 것으로 알고 있습니다.
 (2D SLAM/3D SLAM은 학계에서 구분하는 용어가 아닌 개인적인 구분입니다. 요즘 modern C++을 공부하다보니 이를 modern SLAM이라고 혼자 부르기도 합니다.)
 
-![bundle adjustment in the large](./figures/bundle adjustment in the large.png)
+![bundle adjustment in the large](./figures/bundle%20adjustment%20in%20the%20large.png)
 
 ## SLAM 이해
 

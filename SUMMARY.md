@@ -4,7 +4,7 @@
 
 * [Welcome](README.md)
 * [Purpose](purpose.md)
-* [Study Resources](study-resources.md)
+* [Study Resources](study-resouces.md)
 
 ## SLAM book
 
