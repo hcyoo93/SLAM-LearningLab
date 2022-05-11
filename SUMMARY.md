@@ -9,18 +9,18 @@
 ## SLAM book
 
 * [SLAM book](slam-book/slam-book.md)
-  * [Introduction to SLAM](Intro-to-slam.md)
-  * [3D Rigid Body Motion](3d-rigid-body-motion.md)
-  * [Lie Group and Lie Algebra](Lie-group-algebra.md)
-  * [Cameras and Images](cameras-and-images.md)
-  * [Nonlinear Optimization](nonlinear-optimization.md)
-  * [Visual Odometry1](visual-odometry1.md)
-  * [Visual Odoemtry2](visual-odometry2.md)
-  * [Optimization Approaches1](back-end1.md)
-  * [Optimization Approaches2](back-end2.md)
-  * [Loop Closure](loop-closure.md)
-  * [Dense Reconstruction](mapping.md)
-  * [Discusstion and Outlook](future-of-slam.md)
+  * [Introduction to SLAM](slam-book/Intro-to-slam.md)
+  * [3D Rigid Body Motion](slam-book/3d-rigid-body-motion.md)
+  * [Lie Group and Lie Algebra](slam-book/Lie-group-algebra.md)
+  * [Cameras and Images](slam-book/cameras-and-images.md)
+  * [Nonlinear Optimization](slam-book/nonlinear-optimization.md)
+  * [Visual Odometry1](slam-book/visual-odometry1.md)
+  * [Visual Odoemtry2](slam-book/visual-odometry2.md)
+  * [Optimization Approaches1](slam-book/back-end1.md)
+  * [Optimization Approaches2](slam-book/back-end2.md)
+  * [Loop Closure](slam-book/loop-closure.md)
+  * [Dense Reconstruction](slam-book/mapping.md)
+  * [Discusstion and Outlook](slam-book/future-of-slam.md)
 
 ## MRS2
 
