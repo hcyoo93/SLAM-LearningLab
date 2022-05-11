@@ -68,19 +68,19 @@ g2o나 orb-slam에서 카메라 포즈는 주변화하지 않는 변수, 랜트�
 
 좌측상단의 대각 행렬은 카메라 포즈에 대한 블록이고 우측 하단의 대각행렬은 랜드마크에 대한 블록이다. 초록색 부분은 카메라 포즈와 랜드마크의 연관성에 의해 생성되는 블록이다. 만약 4개의 카메라 포즈와 6개의 랜드마크가 있는 경우를 생각해보자. 각 카메라 포즈에서 3개의 랜드마크가 관측된다고 가정한다. 카메라 포즈와 카메라 포즈 사이의 에지는 IMU 제약조건과 같은 상대 모션 제약 조건을 의미하고 카메라 포즈와 랜드 마크 사이의 에지는 카메라 관측 제약 조건을 의미한다.
 
-![Example (4개 포즈, 6개 랜드마크)](./figures/Marg_fig_4cam_6landmark.png)
+![Example (4개 포즈, 6개 랜드마크)](../figures/slam-book/Marg_fig_4cam_6landmark.png)
 
 여기서, 카메라 포즈 1과 랜드마크 1을 주변화한다고 생각해보자. 그 때, 헤시안 행렬이 어떻게 변하는지 확인해보자.
 
-![Structure Change of  Hessian during Marginalization](./figures/Marg_fig_Example_Marginalization_Of_Hessian.png)
+![Structure Change of  Hessian during Marginalization](../figures/slam-book//Marg_fig_Example_Marginalization_Of_Hessian.png)
 
 위의 그림 중, 가장 왼쪽에 위치한 그림 1은 원본 헤시안 행렬이다. (논문에서 가져온 그림이기 때문에 위에 설명한 수식의 상태변수 배치와는 다르다. 여기서는 카메라 포즈가 아래에 위치하고 랜드마크가 위에 위치한다.) 카메라 포즈 1과 관련된 부분은 빗금으로 표시되어 있다. 단순히 행렬 블록의 위치가 변경된 것으로 보면 된다. 그림 2는 카메라 포즈 1과 관련된 부분이 가장 왼쪽의 외곽으로 이동시킨 결과이다. 그리고 이를 이용해서 카메라 포즈 1과 관련된 부분을 주변화하면 그림 3의 헤시안 행렬이 된다. 그림 3에서 볼 수 있듯이, 주변화하는 변수와 연관되어있던 블록이 주변화되면서 랜드마크 블록에서 카메라 포즈 1과 관련되어 있던 부분들이 sparse 행렬이 아니라 dense 행렬이 된다. 이것은 그림 상에서 어두운 색의 블록으로 표현되어 있다. 이 과정을 그래프로 표현하면 다음 그림과 같다.
 
-![Structure Change after Marginalization of Pose 1](./figures/Marg_fig_after_marg_pose1.png)
+![Structure Change after Marginalization of Pose 1](../figures/slam-book//Marg_fig_after_marg_pose1.png)
 
 여기서 랜드마크 1, 2, 3과 카메라 포즈 1이 연관되어 있음을 기억하자. 카메라 포즈 1이 주변화되면서 원래는 연관성이 없던 랜드마크 1, 2, 3이 연관관계를 가지게 됨을 그래프를 통해서 확인할 수 있다. 거기에 더해서 원래 카메라 포즈 2와 연관이 없던 랜드마크 1, 2도 카메라 포즈 2와 연관관계를 가지게 됨을 볼 수 있다.
 
-![Structure Change after Marginalization of Landmakr 1](./figures/Marg_fig_after_marg_landmark1.png)
+![Structure Change after Marginalization of Landmakr 1](../figures/slam-book//Marg_fig_after_marg_landmark1.png)
 
 이제 추가로 랜드마크 1을 주변화해보자. 이미 관련된 모든 노드가 연관관계를 가지고 있었기 때문에 랜드마크 1을 주변화한다는 것은 단순히 랜드마크 1 노드 및 연관된 에지를 삭제하는 것임을 확인할 수 있다. 즉, 랜드마크 1이 주변화되면서 관련 행렬은 삭제되고, 카메라 포즈 2와 랜드 마크 2, 3과 관련된 행렬의 값이 변화된다. 하지만, 새롭게 dense 요소가 생성되지는 않는다. 결국 카메라 포즈 1과 랜드마크 1을 주변화한 뒤의 그래프는 랜드 마크 2와 3사이에 원래 없었던 에지가 추가된 것임을 볼 수 있다.
 
@@ -88,7 +88,7 @@ g2o나 orb-slam에서 카메라 포즈는 주변화하지 않는 변수, 랜트�
 
 VINS-Mono는 새로 들어온 프레임이 키프레임인지 아닌지 여부에 따라 주변화 전략을 구분하여 수행한다. 시차 비교를 통하여 최신의 키프레임 $${KF}_n$$을 주변화하거나 가장 오래된 프레임 $${KF}_1$$을 주변화한다. 만약 최신의 프레임을 키프레임으로 추가하면 $${KF}_1$$이 주변화한다. $${KF}_1$$ 과 연관된 랜드마크와 포즈 에지는 prior information으로 변환되어 목적함수에 추가된다. 최신의 프레임이 키프레임이 아니면, 새 프레임을 주변화하는 것이 아니라 그냥 버린다. 그 이유는 최신의 프레임과 키프레임이 유사한 정보를 품고 있기 때문에 그냥 버린다고 해도 손실되는 정보가 크지 않다고 생각하기 때문이다.
 
-![VINS-Mono 주변화 전략](./figures/Marg_fig_VINS-MONO_marginalization.png)
+![VINS-Mono 주변화 전략](../figures/slam-book//Marg_fig_VINS-MONO_marginalization.png)
 
 ### Consistency
 
@@ -98,7 +98,7 @@ VINS-Mono는 새로 들어온 프레임이 키프레임인지 아닌지 여부�
 
 일반적으로 최적화를 수행할 때, iteration을 수행하면서 그때마다 갱신 값을 구하고 이를 이용하여 최적화 변수 값을 갱신한다. 이 때, 갱신할 때마다 선형화 지점이 변하기 때문에 자코비안 역시 갱신된 선형화지점에서 다시 계산한다. FEJ는 이렇게 매 iteration마다 자코비안을 갱신하지 않고 선형화 시작 시점의 값에서 계산한 자코비안을 고정하여 사용하는 것이다. 그 이유에 대해서는 [^7]에 잘 설명되어 있다.
 
-![Windowed Optimization Consistency](./figures/Marg_fig_windowed_optimization_consistency.png)
+![Windowed Optimization Consistency](../figures/slam-book//Marg_fig_windowed_optimization_consistency.png)
 
 위의 그림에서 에너지 함수 $$E$$ 는 서로 다른 비선형 에너지 함수 $$E_1$$ 과 $$E_2$$ 의 합으로 구성된다. 그림에서 볼 수 있듯이 $$E$$가 최소가 되는 지점은 $$xy =1$$ 이 된다. $$E_1$$을 $$(0.5, 1.4)$$ 에서 선형화를 통해 2차 근사된 것이 두번째 그림이다. 마찬가지로 $$E_2$$ 를 $$(1.2, 0.5)$$ 근처에서 선형화하여 2차 근사된 결과가 세번째 그림이다. 이 두 에너지 함수를 합해보면 원래의 함수와 차이가 큰 것을 확인할 수 있다. 이것은 두 함수를 서로 다른 선형화 지점에서 근사하기 때문이다. 서로 다른 선형화지점에서 선형화한 결과를 합치니 $$xy=1$$ 이라는 널 스페이스가 사라져서 (1, 1) 지점에서 해를 갖는 것처럼 되었다. 결과적으로 근사하기 전의 해는 고유하지 않지만 근사과정에서 널 스페이스가 사라지면서 고유한 해를 갖는 것으로 특성이 변형되어 불확실성이 사라지는것을 볼 수 있다. 이는 우리에게 잘못된 정보를 전달하고 이런 과정이 반복되면 추정치의 오차가 커진다.
 
@@ -106,7 +106,7 @@ VINS-Mono는 새로 들어온 프레임이 키프레임인지 아닌지 여부�
 
 다음과 같이 6개의 카메라 포즈가 서로 에지로 연결되어 있다고 가정해보자.
 
-![6개의 카메라 포즈 그래프](./figures/Marg_fig_camera_pose_graph.png)
+![6개의 카메라 포즈 그래프](../figures/slam-book//Marg_fig_camera_pose_graph.png)
 
 카메라 포즈 사이의 연관 관계를 기반으로 포즈 그래프의 정보 행렬을 그려보면, 왼쪽 그림과 같다.  여기에서 카메라 포즈 1을 주변화해보자. 주변화하는 카메라 포즈 1과 관련된 정보 행렬의 요소들을 이용하여 남은 카메라 포즈들의 정보 행렬을 계산하면 연관관계가 없던 카메라 포즈 2, 3, 4, 5 사이에 연관 관계가 생긴 것을 볼 수 있다. 
 
@@ -117,11 +117,11 @@ b_p(k) = b_{\alpha}(k) - \Lambda_{\alpha\beta}\Lambda^{-1}_{\beta\beta}(k)b_{\be
 $$
 이것을 이용해 포즈 갱신치를 구할 때, 자코비안은 주변화시작 시점의 것으로 고정시킨다. 
 
-![카메라 포즈 1 주변화](./figures/Marg_fig_after_marginalization.png)
+![카메라 포즈 1 주변화](../figures/slam-book//Marg_fig_after_marginalization.png)
 
 여기에 새로운 카메라 포즈 7이 추가되는 경우를 생각해보자. 카메라 포즈 7은 카메라 포즈 2와 연관 관계를 가지고 있다.
 
-![새 카메라 포즈 7이 추가되는 경우](./figures/Marg_fig_add_new_pose.png)
+![새 카메라 포즈 7이 추가되는 경우](../figures/slam-book//Marg_fig_add_new_pose.png)
 
 만약 새 포즈가 다음 그래프와 같이 추가되면, 정보행렬은 다음과 같이 변화한다. 정보 행렬은 아래의 그림과 같다. 새 카메라 포즈 7과 에지(카메라 포즈 2와 7 사이)가 추가되면서 정보행렬의 관련 요소가 갱신되는 것을 확인할 수 있다. $$\xi_2$$와 관련된 항에 주목해보자. 새로운 잔차 $$r_{27}$$ 와 기존의 정보 행렬을 prior information으로 생각하여 최소 제곱 문제를 생성해보면 다음과 같다.
 $$
@@ -131,7 +131,7 @@ b(k^{*}) = \Pi^{T}J_{p}r_p(k^{*}) - J^T_{2,7}(k^{*})\Sigma^{-1}_{2,7}r_{2,7}(k^{
 $$
 여기서 $$\Lambda_p$$에서 카메라 포즈 2, 3, 4, 5는 주변화된 변수 카메라 포즈 1과 연관 관계를 가지고 있기 때문에 dense block을 생성한다. 하지만 카메라 포즈 6은 카메라 포즈 1과 직접적인 연관관계가 없기 때문에 관련된 block의 값이 변하지 않는다. 카메라 포즈 7이 추가되기 전에 현재의 구성으로 각 카메라 포즈를 업데이트하였다고 가정해 보자. 이제 카메라 포즈 7이 카메라 포즈 2와 연관 관계를 가지며 추가되었다. 이제 카메라 포즈 2와 7 사이에서 자코비안을 계산할 때 사용하는 선형화 지점은 업데이트된 카메라 포즈 2를 이용하기 때문에 주변화 시 사용한  카메라 포즈 2의 값과 다르게 된다. 다시 정리하면, 아래의 그림에서 $$\Lambda$$를 구할 때 사용한 카메라 포즈 2는 $$\Lambda_6$$를 구할 때 사용한 카메라 포즈 2와 다른 값이 된다. 따라서 $$\xi_2$$와 관련된 항은 $$\Lambda$$와 $$\Lambda_6$$에서 관련된 block의 합인데, 이것은 서로 다른 선형화 지점에서 계산된 값이 합해지게 된 것이다. 따라서 위에서 언급한 것처럼 에너지 함수의 특성을 변경하여 일관성 문제를 일으킬 수 있다. [[7]](Decoupled, Consistent Node Removal and　Edge Sparsification for Graph-based SLAM) 은 이러한 경우, 주변화할 변수와 그 변수와 연관된 Markov Blancket에 계산한 local MLE estimate을 선형화지점으로 고정하는 것이 전체 시스템의 (sub-) optimal 해라고 주장하고 있다. 따라서 주변화를 하기 전에 새 포즈를 추가한 후 계산하거나 아니면 새 포즈를 추가할 때, 자코비안을 이전 선형화 지점에서 계산해야 한다. (**Q: 선형화 오차가 크기않을까? **)
 
-![새로운 카메라 포즈 7이 추가된 경우의 정보 행렬](./figures/Marg_fig_infomatrix_whe_add_new_pose.png)
+![새로운 카메라 포즈 7이 추가된 경우의 정보 행렬](../figures/slam-book//Marg_fig_infomatrix_whe_add_new_pose.png)
 
 ## Back Data
 

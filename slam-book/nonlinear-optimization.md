@@ -220,7 +220,7 @@ $$
 
 일차방식의 문제점은 식 (13)에서 알 수 있듯이 최적점 근처에서는 자코비안의 크기가 작기 때문에 $$\Delta \boldsymbol{x}_k$$ 의 크기가 작아진다는 점이다. 이것은 수렴점 근처에서 느리게 수렴을 하게 만든다. 그렇다고 수렴점 근처에서 $$\lambda$$를 너무 키우면 수렴을 못하고 발산할 수도 있다.
 
-![1st order method](figures/06_1st_order_method.png)
+![1st order method](../figures/slam-book/06_1st_order_method.png)
 
 #### 이차 방식 (second order method)
 
@@ -239,7 +239,7 @@ $$
 
 정리하자면 1차 미분 방식은 항상 옳은 방향으로 이동하지만 스텝 크기를 정하기가 어렵고, 2차 미분 방식은 1차 미분에 비해 수렴이 빠르기잠 변곡점 근처에서 수치적으로 불안정하며, 초기값에 민감하다.
 
-![2nd order method](figures/06_2nd_order_method.png)
+![2nd order method](../figures/slam-book/06_2nd_order_method.png)
 
 #### Gauss-Newton (GN)방법
 
@@ -344,9 +344,9 @@ $$
 
   - 1차 시스템에 대하여 생각하면 다음과 같다.
 
-        $$
-        x_{k+1} = x_k -\frac{f^{'}(x_k)}{\lvert f^{"}(x_k)\rvert + \mu_k}
-        $$
+    $$
+    x_{k+1} = x_k -\frac{f^{'}(x_k)}{\lvert f^{"}(x_k)\rvert + \mu_k}
+    $$
 
     - 식 (17)에서 분모의 $$\mu_k$$가 $$f^{\prime\prime}(x_k)$$가 0에 가까워도 분모를 수치적으로 안정화시키는 댐핑에 해당한다. $$\mu_k$$가 작으면 2차 미분방식에 가깝고, $$\mu_k$$가 크면 1차 미분 방식에 가깝다.
     - 또한 $$f^{\prime\prime}(x_k)$$에 절대값을 취함으로써, 이동방향이 1차 미분에만 의존하도록 하여 이동방향의 문제도 극복할 수 있다.
