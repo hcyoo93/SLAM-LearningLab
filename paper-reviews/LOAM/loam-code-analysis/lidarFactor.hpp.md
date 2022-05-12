@@ -33,11 +33,11 @@ LidarEdgeFactor(
 bool operator()(const T *q, const T *t, T *residual) const;
 ```
 * () 연산자를 오버로딩하여 현재 스캔과 이전 스캔 사이의 상대자세(`q`)와 상대 위치변화(`t`)를 입력받아 잔차를 계산한다.
-    * 시간 스케일 s를 고려해서 `q_last_curr`($^{k-1}q_{k}$)과 `t_last_curr`($^{k-1}t_{k}$)을 보간한다.
+    * 시간 스케일 s를 고려해서 `q_last_curr`($$^{k-1}q_{k}$$)과 `t_last_curr`($$^{k-1}t_{k}$$)을 보간한다.
     * 현재 포인트 `curr_point`를 이전 스캔의 마지막 시점으로 좌표변환한 후, 이 점과 이전 스캔의 포인트 `last_point_a`, `last_point_b'와 다음의 metric으로 잔차 벡터를 계산한다.
-    $
+    $$
     \boldsymbol{r}_{\mathcal{E}} = \frac{{\left(\mathbb{X}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,j)}\right)\times \left(\mathbb{X}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,l)}\right)}}{\left\lVert{\bar{\mathbb{X}}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,l)}}\right\rVert}
-    $
+    $$
 
 ### Cost Function
 
@@ -94,7 +94,7 @@ LidarPlaneFactor(
 bool operator()(const T *q, const T *t, T *residual) const;
 ```
 * () 연산자를 오버로딩하여 현재 스캔과 이전 스캔 사이의 상대자세(`q`)와 상대 위치변화(`t`)를 입력받아 잔차를 계산한다.
-    * 시간 스케일 s를 고려해서 `q_last_curr`($^{k-1}q_{k}$)과 `t_last_curr`($^{k-1}t_{k}$)을 보간한다.
+    * 시간 스케일 s를 고려해서 `q_last_curr`($$^{k-1}q_{k}$$)과 `t_last_curr`($$^{k-1}t_{k}$$)을 보간한다.
     * 현재 포인트 `curr_point`를 이전 스캔의 마지막 시점으로 좌표변환한 후, 이 점과 `ljm_norm`을 내적하여 잔차를 구함.
 
 ### Cost Function
@@ -126,7 +126,7 @@ double negative_OA_dot_norm;
 * `curr_point`: 현재 스캔의 plane 특징점 (`surfPointsFlat`중 한 점)
 * `plane_unit_norm`: 맵 상에서 연관된 평면의 정규화된 법선 벡터
 * `negative_OA_dot_norm`: 정규화된 법선벡터와 평면상의 한 점을 내적 값에 -1을 곱한 것. 평면 방정식의 결과 값이 0이 되되록 한다.
-    $ a\cdot x + b\cdot y + c\cdot z + d = 0$
+    $$ a\cdot x + b\cdot y + c\cdot z + d = 0$$
 
 ### Constructor
 ```c++
@@ -144,7 +144,7 @@ LidarPlaneNormFactor(
 bool operator()(const T *q, const T *t, T *residual) const;
 ```
 * () 연산자를 오버로딩하여 현재 스캔과 이전 스캔 사이의 상대자세(`q`)와 상대 위치변화(`t`)를 입력받아 잔차를 계산한다.
-    * 시간 스케일 s를 고려해서 `q_last_curr`($^{k-1}q_{k}$)과 `t_last_curr`($^{k-1}t_{k}$)을 보간한다.
+    * 시간 스케일 s를 고려해서 `q_last_curr`($$^{k-1}q_{k}$$)과 `t_last_curr`($$^{k-1}t_{k}$$)을 보간한다.
     * 현재 포인트 `curr_point`를 plane 특징점의 평면에 대한 normal 벡터인`plane_unit_norm`과 내적하고 이를 `negative_OA_dot_norm`와 더하여 잔차를 구함.
 
 ### Cost Function
@@ -184,7 +184,7 @@ LidarDistanceFactor(
 bool operator()(const T *q, const T *t, T *residual) const;
 ```
 * () 연산자를 오버로딩하여 현재 스캔과 이전 스캔 사이의 상대자세(`q`)와 상대 위치변화(`t`)를 입력받아 잔차를 계산한다.
-    * 시간 스케일 s를 고려해서 `q_last_curr`($^{k-1}q_{k}$)과 `t_last_curr`($^{k-1}t_{k}$)을 보간한다.
+    * 시간 스케일 s를 고려해서 `q_last_curr`($$^{k-1}q_{k}$$)과 `t_last_curr`($$^{k-1}t_{k}$$)을 보간한다.
     * 현재 포인트 `curr_point`를 맵 상의 가장 가까운 점인 `closed_point`까지의 거리로 잔차를 구함.
 
 ### Cost Function

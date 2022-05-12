@@ -32,7 +32,7 @@
 * [Papers](paper-reviews/paper-reviews.md)
   * [Visual SLAM](paper-reviews/visual-slam.md)
   * [Lidar SLAM](paper-reviews/lidar-slam.md)
-    * [LOAM](paper-reviews/LOAM/README.md)
+    * [LOAM](paper-reviews/LOAM/loam.md)
       * [Algorithm Summary](paper-reviews/LOAM/loam-algorithm-summary/loam-algorithm-summary.md)
       * [Code Analysis](paper-reviews/LOAM/loam-code-analysis/README.md)
       * [laserOdometry.cpp](paper-reviews/LOAM/loam-code-analysis/laserOdometry.cpp.md)

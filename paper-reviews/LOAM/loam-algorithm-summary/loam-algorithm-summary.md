@@ -55,18 +55,18 @@
 - 주변 환경에 대한 맵을 생성함.
 - lidar는 internal kinematics를 포함하여 internal calibration이 되어 있다고 가정함.
 - sweep : lidar가 coverage를 한번 scan하는 것
-  - $\mathcal{P}_k$ : sweep k에 받은 point cloud
+  - $$\mathcal{P}_k$$ : sweep k에 받은 point cloud
 
 ### Coordinates
 
-- Lidar frame {$L$}
+- Lidar frame {$$L$$}
   - x: left, y:upward, z: forward
-  - $X_{(k,i)}^{L}$ : {$L_k$} 에서 표현되 sweep _k_ 동안 받아진 point _i_
-  - $T_{k}^{L}(t)$ : 시간 _t_에 받아진 point를 sweep _k_ 의 시작시간의 좌표계인 {$L_k$}의 point로 변환하는 변환행렬
-- World frame {$W$}
-  - 초기화 시점의 {$L$}을 {$W$}로 정함.
-  - $X_{(k,i)}^{W}$ : $\{W\}$에서 표현된 sweep _k_ 동안 받아진 point _i_
-  - $T_{k}^{W}(t)$ : 시간 _t_ 에 받아진 라이다의 point를 {$W$}의 point로 변환하는 변환행렬
+  - $$X_{(k,i)}^{L}$$ : {$$L_k$$} 에서 표현되 sweep _k_ 동안 받아진 point _i_
+  - $$T_{k}^{L}(t)$$ : 시간 _t_에 받아진 point를 sweep _k_ 의 시작시간의 좌표계인 {$$L_k$$}의 point로 변환하는 변환행렬
+- World frame {$$W$$}
+  - 초기화 시점의 {$$L$$}을 {$$W$$}로 정함.
+  - $$X_{(k,i)}^{W}$$ : $$\{W\}$$에서 표현된 sweep _k_ 동안 받아진 point _i_
+  - $$T_{k}^{W}(t)$$ : 시간 _t_ 에 받아진 라이다의 point를 {$$W$$}의 point로 변환하는 변환행렬
 
 ## System overview
 
@@ -74,24 +74,24 @@
 
 #### Hokuyo UTM-30LX
 
-- Field of View (FOV): $180^{\circ}$ 
-- Angular resolution: $0.25^{\circ}$ 
+- Field of View (FOV): $$180^{\circ}$$ 
+- Angular resolution: $$0.25^{\circ}$$ 
 - Scan raet : 40 line/sec
-- 회전모터: $180^{\circ}/sec$ between $-90^{\circ}$ and $90^{\circ}$
+- 회전모터: $$180^{\circ}/sec$$ between $$-90^{\circ}$$ and $$90^{\circ}$$
   - 수평방향을 스캔하는 2D 라이다를 회전 모터를 이용해 롤 방향 회전시켜서 데이터를 얻는 것으로 보임.
   - 다른 라이다를 사용할 경우에는 그에 맞게 라이다의 point cloud를 처리해야 함. 
 
 ## Software System Overview
 
-- $\hat{\mathcal{P}}$: 레이저 스캔을 통해 받아진 점들의 집합
-- $\mathcal{P}$: sweep _k_동안 받아진 각 스캔을 통해 받아진 $\hat{\mathcal{P}}$를 하나로 합쳐진 점들의 집합. 
+- $$\hat{\mathcal{P}}$$: 레이저 스캔을 통해 받아진 점들의 집합
+- $$\mathcal{P}$$: sweep _k_동안 받아진 각 스캔을 통해 받아진 $$\hat{\mathcal{P}}$$를 하나로 합쳐진 점들의 집합. 
   - 각 스캔 간의 시간 차이에 따른 모션 보상이 이루어져서 합져침. 
   - odometry와 mapping에 모두 사용됨.
 
 ![Lidar Measurements](../figures/LOAM_lidar_measurement.png)
 
 - Lidar Odometry: 2개의 연속된 sweep을 받아서 상대 포즈를 구함.(10Hz)
-- Lidar Mappoing: odometry를 통해 상대 포즈가 포상된 $\mathcal{P}_k$를 기존의 Map에 있는 point cloud와 비교하여 더 정밀한 포즈를 계산하고, 이를 이용하여 라이다에서 새롭게 들어온 ponit cloud를 Map에 등록함.(1Hz)
+- Lidar Mappoing: odometry를 통해 상대 포즈가 포상된 $$\mathcal{P}_k$$를 기존의 Map에 있는 point cloud와 비교하여 더 정밀한 포즈를 계산하고, 이를 이용하여 라이다에서 새롭게 들어온 ponit cloud를 Map에 등록함.(1Hz)
 - Transform Integration: odometry와 mapping 결과를 조합하여 10Hz로 현재의 포즈를 계산하고 출력함.
 
 ![Block diagram of LOAM](../figures/LOAM_fig3_blockdiagrma.png)
@@ -100,12 +100,12 @@
 
 ### Feature Point Extraction
 
-- 하나의 sweep은 1Hz동안 스캔된 point cloud들의 집합이며, 하나의 sweep은 40개의 스캔으로 구성된다(40 scan/sec, 수직방향 Angular resolution $4.5^{\circ}$)
+- 하나의 sweep은 1Hz동안 스캔된 point cloud들의 집합이며, 하나의 sweep은 40개의 스캔으로 구성된다(40 scan/sec, 수직방향 Angular resolution $$4.5^{\circ}$$)
 - 특징점은 에지 (sharp edge)와 평면 패치 (planar surface patch)로 구성됨.
 
 ![Feature points](../figures/LOAM_fig5_feature_points.png)
 
-- $\mathcal{S}$: 같은 라이다 스캔 상에서 연속한 점들의 집합이며, 중심점을 기준으로 양쪽으로 $0.25^{\circ}$ 간격ㅇ로 구성된 점들이다.
+- $$\mathcal{S}$$: 같은 라이다 스캔 상에서 연속한 점들의 집합이며, 중심점을 기준으로 양쪽으로 $$0.25^{\circ}$$ 간격ㅇ로 구성된 점들이다.
 - 이 점들의 집합으로 부터 평면의 smoothness를 계산할 수 있음. (코드 상에서는 curvature로 나옴)
 
 ![Smoothness of point clouds](../figures/scan_registration_pointcloud_feature.png)
@@ -136,32 +136,34 @@ $$
 
 ![Relation between point cloud and sweeps](../figures/LOAM_fig_point&sweep-relation.png)
 
-- $\mathcal{P}_{k+1} = \{\tilde{\mathcal{E}}_{k+1}, \tilde{\mathcal{H}}_{k+1}\}$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 k+1번째 sweep이 시작하는 시점인 $t_{k+1}$ 투영한 점들
-  - $\tilde{\mathcal{E}}_{k+1} \subset \mathcal{P}_{k+1}$: 에지 특징점들의 집합
-  - $\tilde{\mathcal{H}}_{k+1} \subset \mathcal{P}_{k+1}$: 평면 패치 특징점들의 집합
-- $\bar{\mathcal{P}}_{k}$: 라이다에서 k번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점인 $t_{k+1}$ 투영한 점들
+- $$\mathcal{P}_{k+1} = \{\tilde{\mathcal{E}}_{k+1}, \tilde{\mathcal{H}}_{k+1}\}$$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 k+1번째 sweep이 시작하는 시점인 $$t_{k+1}$$ 투영한 점들
+  - $$\tilde{\mathcal{E}}_{k+1} \subset \mathcal{P}_{k+1}$$: 에지 특징점들의 집합
+  - $$\tilde{\mathcal{H}}_{k+1} \subset \mathcal{P}_{k+1}$$: 평면 패치 특징점들의 집합
+- $$\bar{\mathcal{P}}_{k}$$: 라이다에서 k번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점인 $$t_{k+1}$$ 투영한 점들
 
-결국 $\bar{\mathcal{P}}_{k}$와 $\mathcal{P}_{k+1}$는 동일 시점의 서로 다른 sweep에서 획득된 3D point cloud의 점들이므로 이 두 점들 간의 상관관계를 찾아야 함. 상관관계는 3D KD-tree를 이용하여 closest neighbor point을 찾는다.
+결국 $$\bar{\mathcal{P}}_{k}$$와 $$\mathcal{P}_{k+1}$$는 동일 시점의 서로 다른 sweep에서 획득된 3D point cloud의 점들이므로 이 두 점들 간의 상관관계를 찾아야 함. 상관관계는 3D KD-tree를 이용하여 closest neighbor point을 찾는다.
 
 #### Edge Features
 
-1. $i \in \tilde{\mathcal{E}}_{k+1}$를 선택한다.
-1. $i$와 가장 가까운 점 $j\in \bar{\mathcal{P}}_{k}$를 구한다.
-1. $j$와 연속적으로 위치한 다른 scan 상의 점 $l\in \bar{\mathcal{P}}_{k}$을 찾는다.
-1. $(j,l)$이 Edge points라는 것을 증명하기 위해 Local Surface의 Smoothness $𝒄$ 를 계산한다.
-1. $(j,l)$이 Edge feature이면, $i$와 $(j,l)$로 구성된 에지 사이의 거리를 다음의 공식으로 구하고, 이것들을 최소화하다록 최적화를 수행한다.
+1. $$i \in \tilde{\mathcal{E}}_{k+1}$$를 선택한다.
+1. $$i$$와 가장 가까운 점 $$j\in \bar{\mathcal{P}}_{k}$$를 구한다.
+1. $$j$$와 연속적으로 위치한 다른 scan 상의 점 $$l\in \bar{\mathcal{P}}_{k}$$을 찾는다.
+1. $$(j,l)$$이 Edge points라는 것을 증명하기 위해 Local Surface의 Smoothness $$𝒄$$ 를 계산한다.
+1. $$(j,l)$$이 Edge feature이면, $$i$$와 $$(j,l)$$로 구성된 에지 사이의 거리를 다음의 공식으로 구하고, 이것들을 최소화하다록 최적화를 수행한다.
    - 사인 공식으로 쉽게 유도된다.
 
-    $$d_{\mathcal{E}} = \frac{\left\lVert{\left(\tilde{\mathbb{X}}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,j)}\right)\times \left(\tilde{\mathbb{X}}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,l)}\right)}\right\rVert}{\left\lVert{\bar{\mathbb{X}}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,l)}}\right\rVert}$$
+   $$
+   d_{\mathcal{E}} = \frac{\left\lVert{\left(\tilde{\mathbb{X}}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,j)}\right)\times \left(\tilde{\mathbb{X}}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,l)}\right)}\right\rVert}{\left\lVert{\bar{\mathbb{X}}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,l)}}\right\rVert}
+   $$
 
 #### Planar Featrues
 
-1. $i \in \tilde{\mathcal{H}}_{k+1}$를 선택한다.
-1. $i$와 가장 가까운 점 $j\in \bar{\mathcal{P}}_{k}$를 구한다.
-1. $j$와 연속적으로 위치한 같은 scan 상의 점 $l\in \bar{\mathcal{P}}_{k}$을 찾는다.
-1. $j$와 연속적으로 위치한 다른 scan 상의 점 $m\in \bar{\mathcal{P}}_{k}$을 찾는다. 
-1. 이렇게 구한 $(j,l,m)$이 Planar points라는 것을 증명하기 위해 Local Surface의 Smoothness $𝒄$ 를 계산한다.
-1. $(j,l,m)$이 평면 패치 특징점이면, $i$와 $(j,l,m)$ plane 사이의 거리를 다음의 공식으로 구하고, 이것들을 최소화하다록 최적화를 수행한다.
+1. $$i \in \tilde{\mathcal{H}}_{k+1}$$를 선택한다.
+1. $$i$$와 가장 가까운 점 $$j\in \bar{\mathcal{P}}_{k}$$를 구한다.
+1. $$j$$와 연속적으로 위치한 같은 scan 상의 점 $$l\in \bar{\mathcal{P}}_{k}$$을 찾는다.
+1. $$j$$와 연속적으로 위치한 다른 scan 상의 점 $$m\in \bar{\mathcal{P}}_{k}$$을 찾는다. 
+1. 이렇게 구한 $$(j,l,m)$$이 Planar points라는 것을 증명하기 위해 Local Surface의 Smoothness $$𝒄$$ 를 계산한다.
+1. $$(j,l,m)$$이 평면 패치 특징점이면, $$i$$와 $$(j,l,m)$$ plane 사이의 거리를 다음의 공식으로 구하고, 이것들을 최소화하다록 최적화를 수행한다.
 
     $$d_{\mathcal{H}} = \left(\mathbb{X}^L_{(k,i)} - \bar{\mathbb{X}}^L_{(k-1,j)}\right)\cdot\frac{{{\left(\mathbb{X}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,l)}\right)\times \left(\mathbb{X}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,m)}\right)}}}{\left\lVert{\left(\mathbb{X}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,l)}\right)\times \left(\mathbb{X}^L_{(k-1,j)} - \bar{\mathbb{X}}^L_{(k-1,m)}\right)}\right\rVert}$$
 
@@ -174,39 +176,39 @@ $$
 - 라이다 모션은 sweep동안 constant angular and linear velocity로 모델링함.
   
   - 서로 다른 시간에 들어온 스캔 데이터의 포즈를 보간하여 사용할 수 있게 됨. 
-- $t$: 현재 시간
-- $t_{k+1}$: _k+1_ sweep의 시작시간
-- $T^{L}_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$: 시간 $[t_{k+1}, t]$ 사이의 라이다 포즈 변환 행렬
-- $T^{L}_{k+1,i}$: $i\in \mathcal{P}_{k+1}$에 대한 시간 $[t_{k+1}, t_i]$ 사이의 라이다 포즈 변환 행렬
+- $$t$$: 현재 시간
+- $$t_{k+1}$$: _k+1_ sweep의 시작시간
+- $$T^{L}_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$$: 시간 $$[t_{k+1}, t]$$ 사이의 라이다 포즈 변환 행렬
+- $$T^{L}_{k+1,i}$$: $$i\in \mathcal{P}_{k+1}$$에 대한 시간 $$[t_{k+1}, t_i]$$ 사이의 라이다 포즈 변환 행렬
 
-    $T^{L}_{k+1,i} = \frac{t_i -t_{k+1}}{t-t_{k+1}}T^{L}_{k+1}$
+    $$T^{L}_{k+1,i} = \frac{t_i -t_{k+1}}{t-t_{k+1}}T^{L}_{k+1}$$
 
 #### Nonlinear Least Square
 
 - 에지
-    $f_{\mathcal{E}} \left( X^L_{k+1, i}, T^L_{k+1}\right) = d_{\mathcal{E}}, \quad i\in \mathcal{E}_{K+1}$
+    $$f_{\mathcal{E}} \left( X^L_{k+1, i}, T^L_{k+1}\right) = d_{\mathcal{E}}, \quad i\in \mathcal{E}_{K+1}$$
 - 평면 패치
-    $f_{\mathcal{H}} \left( X^L_{k+1, i}, T^L_{k+1}\right) = d_{\mathcal{H}}, \quad i\in \mathcal{H}_{K+1}$
+    $$f_{\mathcal{H}} \left( X^L_{k+1, i}, T^L_{k+1}\right) = d_{\mathcal{H}}, \quad i\in \mathcal{H}_{K+1}$$
 - 위의 두 비용함수를 이용하여 비선현 최적화를 Levenberg-Marquardt 기법으로 푼다.
 
 ### Lidar Odometry Algorithm
 
 ![Lidar Odometry Algorithm](../figures/LOAM_alg1_pseudo_code.png)
 
-- 1 line: $t_{k+1}$에서 $\bar{\mathcal{P}}_k, \mathcal{P}_{k+1}, T^L_{k+1}$값을 입력으로 받는다.
-- 4-6 line: sweep을 시작할 때, $T^L_{k+1}$을 초기화한다.
+- 1 line: $$t_{k+1}$$에서 $$\bar{\mathcal{P}}_k, \mathcal{P}_{k+1}, T^L_{k+1}$$값을 입력으로 받는다.
+- 4-6 line: sweep을 시작할 때, $$T^L_{k+1}$$을 초기화한다.
 - 7 line: 특징점을 추출한다.
 - 9-11 line: 에지 특징점에 대하여 상관관계를 찾고, 거리를 계산한다.
 - 12-14 line: 평면 특징점에 대하여 상관관계를 찾고, 거리를 계산한다.
 - 15-19 line: 비선형 최적화를 수행한다.
-- 21-24 line: sweep이 끝나면, sweep이 끝나는 시점인 $t_{k+2}$로 $\mathcal{P}_{k+1}$을 투영하여 $\bar{\mathcal{P}}_{k+1}$을 구하고 $T^L_{k+1}$과 함께 출력한다.
-- 25-27 line: 비선형 최적화를 통해 구한 $T^L_{k+1}$을 출력한다.
+- 21-24 line: sweep이 끝나면, sweep이 끝나는 시점인 $$t_{k+2}$$로 $$\mathcal{P}_{k+1}$$을 투영하여 $$\bar{\mathcal{P}}_{k+1}$$을 구하고 $$T^L_{k+1}$$과 함께 출력한다.
+- 25-27 line: 비선형 최적화를 통해 구한 $$T^L_{k+1}$$을 출력한다.
 
 ## Lidar Mapping
 
 - 라이다 매핑은 sweep이 끝난 순간마다 (1Hz) 수행된다. 
-- sweep이 끝나면, odomtery는 $\bar{\mathcal{P}}_{k+1}$와 $T^L_{k+1}$을 출력한다.
-- $\bar{\mathcal{P}}_{k+1}$와 맵 상의 점들과의 상관관계를 구하고 이를 이용하여 odometry에서 출력한 포즈의 오차를 줄임과 동시에 맵 상에 등록하는 것이 매핑의 핵심이다.
+- sweep이 끝나면, odomtery는 $$\bar{\mathcal{P}}_{k+1}$$와 $$T^L_{k+1}$$을 출력한다.
+- $$\bar{\mathcal{P}}_{k+1}$$와 맵 상의 점들과의 상관관계를 구하고 이를 이용하여 odometry에서 출력한 포즈의 오차를 줄임과 동시에 맵 상에 등록하는 것이 매핑의 핵심이다.
 - 특징점을 추출하는 방법은 odometry와 동일하지만 odomtery보다 10배 많은 수의 특징점을 사용하여 최적화를 수행한다.
 - 연산량을 고려하여 현재 위치 주변의 10m 큐빅내의 점들만 사용한다.
 - 최종적으로 포즈의 출력은 odometry만 수행될 때는 odometry 기반으로 누적하여 출력하고, odomertry와 mapping이 동시에 수행되면, mapping 결과를 이용하여 출력한다.
@@ -215,32 +217,32 @@ $$
 
 ### Input & Output
 
-- ${\mathcal{Q}}_{k}$: k번째 sweep까지 누적된 $\{W\}$에서의 point cloud. (현재 시점의 저장된 맵을 의미함.)
-- ${\mathcal{T}}^{W}_{k}$: k번째 sweep이 끝난 시점에서의 $\{W\}$대비 라이다 포즈 ($@t_{k+1}$)
-- $\bar{\mathcal{P}}_{k+1}$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점인 $t_{k+2}$으로 투영한 점들
-- $\bar{\mathcal{Q}}_{k+1}$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 $\{W\}$으로 투영한 점들
-<!-- - $\!^{L}{\mathcal{T}}_{k+1}$: odometry를 통해 만들어진 상대 포즈, 정확히는 $\!^{L_{k}}{\mathcal{T}}_{L_{k+1}}$ 를 의미함. -->
+- $${\mathcal{Q}}_{k}$$: k번째 sweep까지 누적된 $$\{W\}$$에서의 point cloud. (현재 시점의 저장된 맵을 의미함.)
+- $${\mathcal{T}}^{W}_{k}$$: k번째 sweep이 끝난 시점에서의 $$\{W\}$$대비 라이다 포즈 ($$@t_{k+1}$$)
+- $$\bar{\mathcal{P}}_{k+1}$$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점인 $$t_{k+2}$$으로 투영한 점들
+- $$\bar{\mathcal{Q}}_{k+1}$$: 라이다에서 k+1번째 sweep 동안 누적된 point cloud를 $$\{W\}$$으로 투영한 점들
+<!-- - $$\!^{L}{\mathcal{T}}_{k+1}$$: odometry를 통해 만들어진 상대 포즈, 정확히는 $$\!^{L_{k}}{\mathcal{T}}_{L_{k+1}}$$ 를 의미함. -->
 
 ### Algorithm
 
 ![Mapping Process](../figures/LOAM_lidar_mapping.png)
 
-1. 이전 매핑 알고리즘의 포즈 ${\mathcal{T}}^{W}_{k}$와 odomtery결과로 얻어진 상대 포즈 ${\mathcal{T}}^{L}_{k+1}$를 이용하여 $\bar{\mathcal{P}}_{k+1}$를 $\bar{\mathcal{Q}}_{k+1}$로 변환한다.
-1. ${\mathcal{Q}}_{k}$를 3D KD-tree로 저장하고 $\bar{\mathcal{Q}}_{k+1}$의 특징점들과 상관관계를 찾는다.
-1. 상관관계가 찾아지면, ${\mathcal{Q}}_{k}$에서 상관관계가 찾아진 점들의 집합 $\mathcal{S}^{\prime}$을 Eigen decomposion하여 특징점의 특성이 맞는지 점검한다.
-    - $M$: $\mathcal{S}^{\prime}$의 공분산, 평균은 $\mathcal{S}^{\prime}$의 기하학적 중심으로 생각하여 계산된 것임.
-    - $V,\ E$: $M$의 eigen value와 eigen vector
-    - 에지: $V_1 \gg V_2, V_3$ 의 특성을 가짐.
-    - 평면: $V_1, V_2 \gg V_3$ 의 특성을 가짐.
-1. 최적화 문제를 풀어서 ${\mathcal{T}}^{W}_{k+1}$을 구한다.
-1. $\bar{\mathcal{Q}}_{k+1}$를 맵에 등록하여 $\mathcal{Q}_{k+1}$를 구한다.
+1. 이전 매핑 알고리즘의 포즈 $${\mathcal{T}}^{W}_{k}$$와 odomtery결과로 얻어진 상대 포즈 $${\mathcal{T}}^{L}_{k+1}$$를 이용하여 $$\bar{\mathcal{P}}_{k+1}$$를 $$\bar{\mathcal{Q}}_{k+1}$$로 변환한다.
+1. $${\mathcal{Q}}_{k}$$를 3D KD-tree로 저장하고 $$\bar{\mathcal{Q}}_{k+1}$$의 특징점들과 상관관계를 찾는다.
+1. 상관관계가 찾아지면, $${\mathcal{Q}}_{k}$$에서 상관관계가 찾아진 점들의 집합 $$\mathcal{S}^{\prime}$$을 Eigen decomposion하여 특징점의 특성이 맞는지 점검한다.
+    - $$M$$: $$\mathcal{S}^{\prime}$$의 공분산, 평균은 $$\mathcal{S}^{\prime}$$의 기하학적 중심으로 생각하여 계산된 것임.
+    - $$V,\ E$$: $$M$$의 eigen value와 eigen vector
+    - 에지: $$V_1 \gg V_2, V_3$$ 의 특성을 가짐.
+    - 평면: $$V_1, V_2 \gg V_3$$ 의 특성을 가짐.
+1. 최적화 문제를 풀어서 $${\mathcal{T}}^{W}_{k+1}$$을 구한다.
+1. $$\bar{\mathcal{Q}}_{k+1}$$를 맵에 등록하여 $$\mathcal{Q}_{k+1}$$를 구한다.
 
 ## Appendix
 
 ### Edge feature Jacobian
 
-- ${d}_{\mathcal{E}}$를 벡터 $\vec{d}_{\mathcal{E}}$의 놈으로 모델링할 수 있음.
-- $\vec{d}_{\mathcal{E}}$의  분자 부분은 상수로 생각가능함.
+- $${d}_{\mathcal{E}}$$를 벡터 $$\vec{d}_{\mathcal{E}}$$의 놈으로 모델링할 수 있음.
+- $$\vec{d}_{\mathcal{E}}$$의  분자 부분은 상수로 생각가능함.
 
 $$
 \begin{align}
@@ -249,8 +251,8 @@ d_{\mathcal{E}} &= f\left(\vec{d}_{\mathcal{E}}\right) \quad \text{where } f(\cd
 \end{align}
 $$
 
-- $\vec{d}_{\mathcal{E}}$ 는 $\tilde{\mathbf{X}}^L_{(k,i)}$ 의 함수로 생각 가능함.
-- $\tilde{\mathbf{X}}^L_{(k,i)}$는 입력  ${\mathbf{X}}^L_{(k,i)}$와 포즈 변수 $\xi = log(^{k+2}T_{k+1})$의 함수로 생각 가능함.
+- $$\vec{d}_{\mathcal{E}}$$ 는 $$\tilde{\mathbf{X}}^L_{(k,i)}$$ 의 함수로 생각 가능함.
+- $$\tilde{\mathbf{X}}^L_{(k,i)}$$는 입력  $${\mathbf{X}}^L_{(k,i)}$$와 포즈 변수 $$\xi = log(^{k+2}T_{k+1})$$의 함수로 생각 가능함.
 
 $$
 \begin{align}
@@ -296,7 +298,7 @@ $$
 
 ### Planar feature Jacobian
 
-- ${d}_{\mathcal{H}}$를 상수 벡터와 벡터 차이의 내적으로 생각할 수 있음.
+- $${d}_{\mathcal{H}}$$를 상수 벡터와 벡터 차이의 내적으로 생각할 수 있음.
 
 $$
 {d}_{\mathcal{H}} = \vec{\mathbf{c}}^\mathbf{T}\left(\tilde{\mathbf{X}}^L_{(k,i)} - \bar{\mathbf{X}}^L_{(k-1,j)}\right)

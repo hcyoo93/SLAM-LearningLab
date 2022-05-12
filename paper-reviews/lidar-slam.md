@@ -18,7 +18,7 @@
 
 ### Reviews
 
-[LOAM-Reviews](paper-reviews/LOAM/README.md)
+[LOAM-Reviews](./LOAM/loam.md)
 
 * [Algorithm Summary](./LOAM/loam-algorithm-summary/loam-algorithm-summary.md)
 * [Code Analysis](./LOAM/loam-code-analysis/README.md)

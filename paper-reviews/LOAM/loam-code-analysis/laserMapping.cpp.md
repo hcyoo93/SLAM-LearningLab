@@ -1,37 +1,37 @@
 # laserMapping.cpp
 ## Logic
 ### Input
-* ${\mathcal{Q}}_{k-1}$: k-1번째 sweep까지 누적된 맵 상의 point cloud
-* $\!^{w}{\mathcal{T}}_{k-1}$: k-1번째 sweep이 끝난 시점에서의 라이다 포즈 ($@t_{k}$)
-* $\bar{\mathcal{P}}_{k}$: 라이다에서 k번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점으로 투영한 점들
-* $\!^{L}{\mathcal{T}}_{k}$: odometry를 통해 만들어진 상대 포즈, 정확히는 $\!^{L_{k-1}}{\mathcal{T}}_{L_{k}}$ 를 의미함.
+* $${\mathcal{Q}}_{k-1}$$: k-1번째 sweep까지 누적된 맵 상의 point cloud
+* $$\!^{w}{\mathcal{T}}_{k-1}$$: k-1번째 sweep이 끝난 시점에서의 라이다 포즈 ($$@t_{k}$$)
+* $$\bar{\mathcal{P}}_{k}$$: 라이다에서 k번째 sweep 동안 누적된 point cloud를 k번째 sweep이 끝나는 시점으로 투영한 점들
+* $$\!^{L}{\mathcal{T}}_{k}$$: odometry를 통해 만들어진 상대 포즈, 정확히는 $$\!^{L_{k-1}}{\mathcal{T}}_{L_{k}}$$ 를 의미함.
 
 ### Output
 
-*   $\!^{w}{\mathcal{T}}_{k}$: k번째 sweep이 끝난 시점의 라이다 포즈 ($@t_{k+1}$)
-*   ${\mathcal{Q}}_{k}$: 라이다에서 k번째 sweep에서 들어온 point cloud $\bar{\mathcal{P}}_k$ 를 world 좌표계로 투영한 점들
+*   $$\!^{w}{\mathcal{T}}_{k}$$: k번째 sweep이 끝난 시점의 라이다 포즈 ($$@t_{k+1}$$)
+*   $${\mathcal{Q}}_{k}$$: 라이다에서 k번째 sweep에서 들어온 point cloud $$\bar{\mathcal{P}}_k$$ 를 world 좌표계로 투영한 점들
 
 
 ### Algorithm
 
 1.  특징점 추출 (odometry 보다 10배 많이 사용)
 2.  맵 상의 특징점과 라이다에서 들어온 특징점 사이의 연관관계 찾기
-    1.  ${\mathcal{Q}}_{k-1}$ 을 10m 단위의 큐브로 저장한다.
-    2.  $\bar{\mathcal{P}}_{k}$ 를 world 좌표계로 변환하여 $\bar{\mathcal{Q}}_{k}$ 를 구한다.
-    3.  ${\mathcal{Q}}_{k-1}$ 과 $\bar{\mathcal{Q}}_{k}$ 가 교차하는 지점을 찾고 그 영역에 해당하는 특징점들을 $\mathcal{S}^{\prime}$ 에 저장하고 3D KD-tree를 만든다. 해당 특징점은 edge line과  plane patch를 유지한다.
-    4.  $\mathcal{S}^{\prime}$ 에서 특징점을 하나 씩 추출하여 공분산 $\boldsymbol{M}$ 과  그 것의 eigien value $V$ 와 eigen vector $E$ 를 계산한다.
-        *   $V_1 \gg V_2, V_3$ 의 특성을 가지면 edge point로 생각하고 2개의 점을 선택하고 거리 $d_{\mathcal{E}} $ 를 계산한다.
-        *   $V_1, V_2 \gg V_3$ 의 특성을 가지면 plane point로 생각하고 3개의 점을 선택하고 거리 $d_{\mathcal{H}}$ 를 계산한다.
-3.  최적화 문제를 풀어서 $\!^{w}{\mathcal{T}}_{k}$ 를 구한다.
-4.  $\bar{\mathcal{Q}}_{k}$ 를 맵에 등록하여 ${\mathcal{Q}}_{k}$를 구한다. 맵에 등록하기 전, 사이즈를 줄이기 위해 voxel grid filter를 돌린다.
+    1.  $${\mathcal{Q}}_{k-1}$$ 을 10m 단위의 큐브로 저장한다.
+    2.  $$\bar{\mathcal{P}}_{k}$$ 를 world 좌표계로 변환하여 $$\bar{\mathcal{Q}}_{k}$$ 를 구한다.
+    3.  $${\mathcal{Q}}_{k-1}$$ 과 $$\bar{\mathcal{Q}}_{k}$$ 가 교차하는 지점을 찾고 그 영역에 해당하는 특징점들을 $$\mathcal{S}^{\prime}$$ 에 저장하고 3D KD-tree를 만든다. 해당 특징점은 edge line과  plane patch를 유지한다.
+    4.  $$\mathcal{S}^{\prime}$$ 에서 특징점을 하나 씩 추출하여 공분산 $$\boldsymbol{M}$$ 과  그 것의 eigien value $$V$$ 와 eigen vector $$E$$ 를 계산한다.
+        *   $$V_1 \gg V_2, V_3$$ 의 특성을 가지면 edge point로 생각하고 2개의 점을 선택하고 거리 $$d_{\mathcal{E}} $$ 를 계산한다.
+        *   $$V_1, V_2 \gg V_3$$ 의 특성을 가지면 plane point로 생각하고 3개의 점을 선택하고 거리 $$d_{\mathcal{H}}$$ 를 계산한다.
+3.  최적화 문제를 풀어서 $$\!^{w}{\mathcal{T}}_{k}$$ 를 구한다.
+4.  $$\bar{\mathcal{Q}}_{k}$$ 를 맵에 등록하여 $${\mathcal{Q}}_{k}$$를 구한다. 맵에 등록하기 전, 사이즈를 줄이기 위해 voxel grid filter를 돌린다.
 
 ## Global Variables
-* `q_w_curr`: $^{w}q_{L_{k}}$, map 기준 좌표계 대비 현재 로컬 좌표계의 rotation
-* `t_w_curr`: $^{w}t_{w,L_{k}}$, map 기준 좌표계 대비 현재 로컬 좌표계의 translation
-* `q_wmap_wodom`: $^{w}q_{o}$, map의 기준 좌표계와 odometry의 기준좌표계 사이의 rotation
-* `t_wmap_wodom`: $^{w}t_{w,o}$, map의 기준 좌표계와 odometry의 기준좌표계 사이의 translation
-* `q_wodom_curr`: $^{o}q_{L_{k}}$, odometry 기준 좌표계 대비 현재 로컬 좌표계의 rotation
-* `t_wodom_curr`: $^{o}t_{o,L_{k}}$, odometry 기준 좌표계 대비 현재 로컬 좌표계의 translation
+* `q_w_curr`: $$^{w}q_{L_{k}}$$, map 기준 좌표계 대비 현재 로컬 좌표계의 rotation
+* `t_w_curr`: $$^{w}t_{w,L_{k}}$$, map 기준 좌표계 대비 현재 로컬 좌표계의 translation
+* `q_wmap_wodom`: $$^{w}q_{o}$$, map의 기준 좌표계와 odometry의 기준좌표계 사이의 rotation
+* `t_wmap_wodom`: $$^{w}t_{w,o}$$, map의 기준 좌표계와 odometry의 기준좌표계 사이의 translation
+* `q_wodom_curr`: $$^{o}q_{L_{k}}$$, odometry 기준 좌표계 대비 현재 로컬 좌표계의 rotation
+* `t_wodom_curr`: $$^{o}t_{o,L_{k}}$$, odometry 기준 좌표계 대비 현재 로컬 좌표계의 translation
 `laserCloudWidth`, `laserCloudHeight`, `laserCloudDepth`
 ### Input
 ```c++
@@ -45,12 +45,12 @@ pcl::PointCloud<PointType>::Ptr laserCloudSurfFromMap(new pcl::PointCloud<PointT
 pcl::KdTreeFLANN<PointType>::Ptr kdtreeCornerFromMap(new pcl::KdTreeFLANN<PointType>());
 pcl::KdTreeFLANN<PointType>::Ptr kdtreeSurfFromMap(new pcl::KdTreeFLANN<PointType>());
 ```
-* ${\mathcal{Q}}_{k-1}$: k-1번째 sweep까지 누적된 맵 상의 점들
-* $\bar{\mathcal{Q}}_{k}$: k번째 sweep에서 라이다에서 얻어진 점들을 odometry에서 구한 포즈 ($^{L}T_{k}$)를 이용하여 맵 상에 투영한 점들
-* `laserCloudCornerLast`: 지난 sweep의 corner 특징점들, $\bar{\mathcal{E}}_{k-1} \subset \bar{\mathcal{P}}_{k-1}$
-* `laserCloudSurfLast`: 지난 sweep의 plane 특징점들, $\bar{\mathcal{H}}_{k-1} \subset \bar{\mathcal{P}}_{k-1}$
-* `laserCloudCornerFromMap`: 센서가 아니라 맵에 있는 corner 특징점들, $\tilde{\mathcal{E}}_{k-1} \subset {\mathcal{Q}}_{k-1}$
-* `laserCloudSurfFromMap`: 센서가 아니라 맵에 있는 plane 특징점들, $\tilde{\mathcal{H}}_{k-1} \subset {\mathcal{Q}}_{k-1}$
+* $${\mathcal{Q}}_{k-1}$$: k-1번째 sweep까지 누적된 맵 상의 점들
+* $$\bar{\mathcal{Q}}_{k}$$: k번째 sweep에서 라이다에서 얻어진 점들을 odometry에서 구한 포즈 ($$^{L}T_{k}$$)를 이용하여 맵 상에 투영한 점들
+* `laserCloudCornerLast`: 지난 sweep의 corner 특징점들, $$\bar{\mathcal{E}}_{k-1} \subset \bar{\mathcal{P}}_{k-1}$$
+* `laserCloudSurfLast`: 지난 sweep의 plane 특징점들, $$\bar{\mathcal{H}}_{k-1} \subset \bar{\mathcal{P}}_{k-1}$$
+* `laserCloudCornerFromMap`: 센서가 아니라 맵에 있는 corner 특징점들, $$\tilde{\mathcal{E}}_{k-1} \subset {\mathcal{Q}}_{k-1}$$
+* `laserCloudSurfFromMap`: 센서가 아니라 맵에 있는 plane 특징점들, $$\tilde{\mathcal{H}}_{k-1} \subset {\mathcal{Q}}_{k-1}$$
 * `kdtreeCornerFromMap`: Kd-Tree로 구분된 맵 상의 corner 특징점
 * `kdtreeSurfFromMap`: Kd-Tree로 구분된 맵 상의 plane 특징점
 
@@ -87,20 +87,20 @@ void pointAssociateTobeMapped(PointType const *const pi, PointType *const po);
 ```
 * `transformAssociateToMap` 함수
     * map의 기준 좌표계 대비 현재 좌표계의 자세변환 행렬을 구한다.
-    $ \!^{w}T_{L_{k}} = \!^{w}T_{o} \cdot\ \!^{o}T_{L_{k}} $
+    $$ \!^{w}T_{L_{k}} = \!^{w}T_{o} \cdot\ \!^{o}T_{L_{k}} $$
 
 * `transformUpdate` 함수
     * map의 기준 좌표계 대비 odometry 기준 좌표계의 자세변환 행렬을 구한다.
-    $ \!^{w}T_{o} = \!^{w}T_{L_{k}} \cdot\ \!^{o}T_{L_{k}}^{-1} $
+    $$ \!^{w}T_{o} = \!^{w}T_{L_{k}} \cdot\ \!^{o}T_{L_{k}}^{-1} $$
 
 * `pointAssociateToMap` 함수
     * 현재 좌표계의 점을 map의 기준 좌표계 {w}로 변환한다.
     * intensity는 그냥 전달한다.
-    $ \!^{w}p_{k} = \!^{w}R_{L_{k}}\!^{L_{k}}p_{k} + \!^{w}t_{w,L_{k}} $
+    $$ \!^{w}p_{k} = \!^{w}R_{L_{k}}\!^{L_{k}}p_{k} + \!^{w}t_{w,L_{k}} $$
 * `pointAssociateTobeMapped` 함수
     * map 기준 좌표계 {w}의 점을 현재의 로컬 좌표계로 변환한다.
     * intensity는 그냥 전달한다.
-    $ \!^{L_k}p = \!^{w}R_{L_{k}}^{-1}\left(\!^{w}p - \!^{w}t_{w,L_{k}}\right) $
+    $$ \!^{L_k}p = \!^{w}R_{L_{k}}^{-1}\left(\!^{w}p - \!^{w}t_{w,L_{k}}\right) $$
 
 
 ## Data Handler
