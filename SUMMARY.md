@@ -5,6 +5,7 @@
 * [Welcome](README.md)
 * [Purpose](purpose.md)
 * [Study Resources](study-resouces.md)
+* [Intro to Visual-SLAM](visual_slam_state_of_the_art.md)
 
 ## SLAM book
 
@@ -31,4 +32,13 @@
 * [Papers](paper-reviews/paper-reviews.md)
   * [Visual SLAM](paper-reviews/visual-slam.md)
   * [Lidar SLAM](paper-reviews/lidar-slam.md)
+    * [LOAM](paper-reviews/LOAM/README.md)
+      * [Algorithm Summary](paper-reviews/LOAM/loam-algorithm-summary/loam-algorithm-summary.md)
+      * [Code Analysis](paper-reviews/LOAM/loam-code-analysis/README.md)
+      * [laserOdometry.cpp](paper-reviews/LOAM/loam-code-analysis/laserOdometry.cpp.md)
+      * [laserMapping.cpp](paper-reviews/LOAM/loam-code-analysis/laserMapping.cpp.md)
+      * [lidarFactor.hpp](paper-reviews/LOAM/loam-code-analysis/lidarFactor.hpp.md)
+      * [scanRegistaration.cpp](paper-reviews/LOAM/loam-code-analysis/scanRegistration.cpp.md)
+      * [kittiHelper.cpp](paper-reviews/LOAM/loam-code-analysis/kittihelper.cpp.md)
+      * [Remarks](paper-reviews/LOAM/loam-code-analysis/remarks.md)
   * [Radar SLAM](paper-reviews/radar-slam.md)
