@@ -2,16 +2,16 @@
 
  [SLAM 스터디 자료](study-resources.md)에서 언급하였듯이, 최신 비선형 최적화 기반의 SLAM 기술은 그 뿌리를 Visual SLAM에 두고 있으며, 자율주행 분야에서도 Visual SLAM은 활용도가 높기 때문에 해당 기술의 기술동향 및 유명한 연구실에 대해서 소개를 하도록 하겠습니다.
 
- 컴퓨터 비전 분야에서 2000년대 초중반 여러 카메라에서 취득된 데이터를 이용하여 해당 물체의 3D 형상을 복원하는 3D Reconstruction (혹은 SFM (Structure From Motion) 혹은 BA (Bundle Adjustment)) 기법이 활발히 연구되었습니다. 그리고 이 기법에서 연구된 비선형 최적화 기법을 움직이는 차량, 로봇, 드론 등에 적용한 것이 최신 SLAM 기법이라고 이해하시면 됩니다.
- 
- ![3D Reconstruction using SFM](./figures/vslam_3D-Reconstruction.png)
+컴퓨터 비전 분야에서 2000년대 초중반 여러 카메라에서 취득된 데이터를 이용하여 해당 물체의 3D 형상을 복원하는 3D Reconstruction (혹은 SFM (Structure From Motion) 혹은 BA (Bundle Adjustment)) 기법이 활발히 연구되었습니다. 그리고 이 기법에서 연구된 비선형 최적화 기법을 움직이는 차량, 로봇, 드론 등에 적용한 것이 최신 SLAM 기법이라고 이해하시면 됩니다.
+
+![3D Reconstruction using SFM](./figures/vslam_3D-Reconstruction.png)
 
  카메라 센서의 특징은 우선 센서의 크기가 작고 전력 소비도 크지 않은 반면 주변 환경에 대한 풍부한 정보를 얻을 수 있다는 점입니다. 단점은 3D 공간을 2D로 투영하기 때문에 3D 정보를 복원하는 것이 쉽지 않습니다. 단안 카메라 (mono-camera) 대신 양안 카메라 (stereo-camera)를 사용할 경우, 이러한 점을 극복할 수 있지만 양안 카메라에서 얻을 수 있는 3D 정보의 범위는 양안 카메라의 base-line의 크기와 연관되기 때문에 목표 시스템의 크기가 작다면 이 역시 적용이 어려운 편입니다. RGB-D 센서는 깊이 정보를 바로 얻을 수 있지만 특성 상 야외에서 사용하기 어렵습니다. 또한 주변 환경과 조명의 변화에 따라 동일한 환경도 다르게 보이기 때문에 문제가 발생하는 경우도 많습니다.
 
-단안/양안 카메라 어느 것을 사용하더라도 라이다 수준의 정확한 깊이 정보를 얻는 것은 어렵습니다. 따라서 보통 SLAM 기법은 MVG (Multiple View Geometry)에 기반하여 깊이를 얻습니다. 이것은 동일한 물체를 서로 다른 위치에서 바라보면 삼각 측얄에 기반해서 해당 물체의 위치를 얻을 수 있다는 것에 기반합니다. 이를 위해서 우선 서로 다른 시간에 취득한 영상에서 동일한 지점을 찾고 연관지어야만 합니다. 결국 이러한 특징 인지와 연관을 어떻게 하느냐에 따라 기법들이 분류되지만 대부분의 경우 최적해를 구하는 Backend는 거의 대부분 factor graph 기반의 비선형 최적화를 사용하고 있습니다. 물론 여전히 필터링 기반의 최적화를 연구하는 연구실도 있으며, 이 경우는 리소스가 제한된 시스템 (소형 드론, 모바일 폰 등)에 적용되는 것을 고려한 경우가 많습니다.
-일반적인 visual slam의 파이프라인은 다음과 같습니다. 
-!
-[Visual SLAM pipeline](figures/vslam_pipeline.png)
+단안/양안 카메라 어느 것을 사용하더라도 라이다 수준의 정확한 깊이 정보를 얻는 것은 어렵습니다. 따라서 보통 SLAM 기법은 MVG (Multiple View Geometry)에 기반하여 깊이 정보를 얻습니다. 이것은 동일한 물체를 서로 다른 위치에서 바라보면 삼각 측얄에 기반해서 해당 물체의 위치를 얻을 수 있다는 것에 기반합니다. 이를 위해서 우선 서로 다른 시간에 취득한 영상에서 동일한 지점을 찾고 연관지어야만 합니다. 결국 이러한 특징 인지와 연관을 어떻게 하느냐에 따라 기법들이 분류되지만 대부분의 경우 최적해를 구하는 Backend는 거의 대부분 factor graph 기반의 비선형 최적화를 사용하고 있습니다. 물론 여전히 필터링 기반의 최적화를 연구하는 연구실도 있으며, 이 경우는 리소스가 제한된 시스템 (소형 드론, 모바일 폰 등)에 적용되는 것을 고려한 경우가 많습니다.
+일반적인 visual slam의 파이프라인은 다음과 같습니다.
+
+![Visual SLAM pipeline](figures/vslam_pipeline.png)
 
 간혹 visual odoemtry와 visual slam이 혼용되기도 하는데요. 정확하게는 visual odometry는 localization만 집중하는 것을 말하는 것입니다. 따라서 visual SLAM은 visual odometry에 추가로 mapping 및 loop detection을 통한 오차 최소화가 추가된 개념입니다. 물론 visual odometry를 통해서도 맵을 구성할 수 있지만 오차가 누적되기 때문에 local consistency만 가진다고 이야기할 수 있고, visual SLAM은 loop detection을 한 후, pose-graph optimizaiton을 통해서 global consistency까지 가진다고 이해할 수 있습니다.
 
@@ -75,6 +75,7 @@ direct 방식은 밝기 정보를 이용하여 밝기 차이가 최소화되도�
   * Sliding window phtometric bundle adjustment
   * 스테레오 카메라 적용 (2017), loop-closing (2018), IMU 적용 (2018)
   * 이미지 영역 겹침이 일정 비율 이상이면 Sparse, Semi-Dense, Dense로 최적화를 해도 성능의 큰 차이가 없음을 발견하고 실시간성을 높임.
+  
   ![DSO vs LSD-SLAM vs ORB-SLAM](figures/vslam%20_DSO_Comparison.gif)
 
 ## 주요 연구실
@@ -102,5 +103,5 @@ direct 방식은 밝기 정보를 이용하여 밝기 차이가 최소화되도�
 * Computer Vision 혹은 Grphics 연구실인데, Dircect 기법을 제안한 이후, Direct 기법 기반 SLAM 쪽 연구를 활발히 진행 중임.
 * LSD-SLAM과 DSO를 공개했으며, Direct 기법 기반의 Large environment SLAM에서 높은 성능을 보임.
 * 독일 자동차 OEM과도 과제를 진행했다고 하며, 특히 Direct 기법에 기반한 Light-weight map 생성을 진행 중임.
-  * [Direct Visaul SLAM and Autonomous System](https://vimeo.com/3804556140) @40:45
-  * 현재 해당 기술을 이용한 스타트업 창립함.([Artisense](https://youtu.be/PBAmpYwAY3g))
+  * [Direct Visaul SLAM and Autonomous System](https://vimeo.com/380455614) @40:45
+  * 현재 해당 기술을 이용한 스타트업 창립함.([Artisense](https://youtu.be/ssPBAmpYwAY3g))
