@@ -30,9 +30,12 @@
   \end{equation}$$
   
   ### 좌표계간의 유클리드 변환(Euclidean Transformation Between Coordinate Systems)
-* 
 * World 좌표계 $\mathbf{p}_w = \left(x_W, y_W, z_W\right)$에서 카메라 좌표계 $\mathbf{p}_c = \left(x_C, y_C, z_C\right)$로의 변환 행렬 $\mathbf{T}$
   ![Figure 2-1](./resource/3d-rigid-body-motion-fig-2-1.jpg)
 * 이러한 변화를 강체 운동(rigid body motion)이라 함
-  * 회전 + 변환
+  * 카메라의 움직임은 각 좌표계에서 길이와 각도가 변하지 않도록 하는 강체 운동 (유클리드 변환, Euclidean Transformation)
+  * 두 좌표계간의 좌표의 정의
+    * 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{pmatrix}$
+    * 회전 후 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{pmatrix}$
+    $$ \begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}$$
 
