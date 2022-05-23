@@ -37,5 +37,9 @@
   * 두 좌표계간의 좌표의 정의
     * 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{pmatrix}$
     * 회전 후 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{pmatrix}$
-    $$ \begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}$$
-
+    $$\begin{equation} \begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}\end{equation}$$
+    * 두 좌표 사이의 관계를 설명하기 위해 (5)의 양 변에 $\begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}^T$ 곱함
+        $$\begin{equation}
+        \begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1^T\mathbf{e}_1' & \mathbf{e}_1^T\mathbf{e}_2' & \mathbf{e}_1^T\mathbf{e}_3'\\\mathbf{e}_2^T\mathbf{e}_1' & \mathbf{e}_2^T\mathbf{e}_2' & \mathbf{e}_2^T\mathbf{e}_3'\\\mathbf{e}_3^T\mathbf{e}_1' & \mathbf{e}_3^T\mathbf{e}_2' & \mathbf{e}_3^T\mathbf{e}_3'\\ \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}\overset{\Delta}{=}\mathbf{R}\mathbf{a}'\
+        \end{equation}$$
+ 
