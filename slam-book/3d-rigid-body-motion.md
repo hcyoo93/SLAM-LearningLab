@@ -38,8 +38,15 @@
     * 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{pmatrix}$
     * 회전 후 단위 직교 베이스 $\begin{pmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{pmatrix}$
     $$\begin{equation} \begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1' & \mathbf{e}_2' & \mathbf{e}_3' \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}\end{equation}$$
-    * 두 좌표 사이의 관계를 설명하기 위해 (5)의 양 변에 $\begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}^T$ 곱함
+    * 두 좌표 사이의 관계를 설명하기 위해 (5)의 양 변에 $\begin{bmatrix} \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \end{bmatrix}^T$ 곱함 (좌변의 베이스 행렬이 사라지는 것은 베이스 행렬의 크기는 1이고, 각 베이스는 직각을 이루기 때문)
         $$\begin{equation}
         \begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix} = \begin{bmatrix} \mathbf{e}_1^T\mathbf{e}_1' & \mathbf{e}_1^T\mathbf{e}_2' & \mathbf{e}_1^T\mathbf{e}_3'\\\mathbf{e}_2^T\mathbf{e}_1' & \mathbf{e}_2^T\mathbf{e}_2' & \mathbf{e}_2^T\mathbf{e}_3'\\\mathbf{e}_3^T\mathbf{e}_1' & \mathbf{e}_3^T\mathbf{e}_2' & \mathbf{e}_3^T\mathbf{e}_3'\\ \end{bmatrix}\begin{bmatrix}a_1'\\a_2'\\a_3'\end{bmatrix}\overset{\Delta}{=}\mathbf{R}\mathbf{a}'\
         \end{equation}$$
- 
+    * 행렬 $\mathbf{R}$은 회전 행렬
+* 회전 행렬의 속성
+    * 행렬식의 값이 1인 직교 행렬
+        $$ \mathbf{SO}(n) = \left\{
+            \mathbf{R} \in \mathbb{R} \vert 
+            \mathbf{R} \mathbf{R}^T = \mathbf{I}, 
+            \det\left(\mathbf{R}\right) = 1
+             \right\}$$
