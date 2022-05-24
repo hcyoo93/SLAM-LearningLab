@@ -131,3 +131,40 @@
     \mathbf{T}^{-1} = \begin{bmatrix}\mathbf{R}^T & -\mathbf{R}^T\mathbf{t} \\ \mathbf{0}^T & 1\end{bmatrix}
     \end{equation}
     $$
+
+## 회전 벡터와 오일러 각(Rotation Vectors and the Euler Angles)
+### 회전 벡터(Rotation Vectors)
+* 회전을 기술하기 위한 행렬 표현식에 대한 단점
+  * $SO\left(3\right)$ 는 9개의 원소를 갖는 반면, 3차원 회전은 3DoF를 갖음. 유사하게 변환 행렬은 6 DoF의 변환이지만, 16개의 원소를 포함
+  * 회전 행렬은 직교 행렬이면서, 행렬식(determinant)이 1이어야 함. 변환 행렬도 동일한 제약을 갖음
+* 명백히 회전은 회전 축과 회전 각도로 표현되므로 회전 벡터라고 부르는 벡터 표현식으로 사용 가능
+* 회전 행렬 $\mathbf{R}$이 회전 축 $\mathbf{n}$에 대해서 각도 $\theta$만큼 회전 했다고 가정하면 *Rodrigues' formula*에 의해 다음과 같이 서술할수 있음
+    $$
+    \begin{equation}
+    \mathbf{R} = 
+    \cos{\theta}\mathbf{I} + \left(1 - \cos{\theta}\right)\mathbf{n}\mathbf{n}^T + \sin{\theta}\mathbf{n}^{\wedge}
+    \end{equation}
+    $$
+* $\theta$는 위 식의 양 변에 *trace* 를 취해 아래와 같이 구할 수 있음
+    $$
+    \begin{equation}
+    \begin{aligned}
+    \mathrm{tr}\left(\mathbf{R}\right) 
+    &= \cos{\theta}\mathrm{tr}\left(\mathbf{I}\right) + (1-\cos{\theta})\mathrm{tr}\left(\mathbf{n}\mathbf{n}^T\right) + \sin{\theta}\mathrm{tr}\left(\mathbf{n}^{\wedge}\right)\\
+    &= 3\cos{\theta} + \left(1 - \cos{\theta}\right)\\
+    &= 1 + 2 \cos{\theta}
+    \end{aligned}
+    \end{equation}
+    $$
+* 따라서
+    $$ 
+    \begin{equation}
+    \theta = \arccos{\left(\frac{\mathrm{tr}\left(\mathbf{R}\right)-1}{2}\right)}
+    \end{equation}
+    $$
+* 회전 축 $\mathbf{n}$은 회전 이후에 변화가 없으므로 다음과 같음
+    $$
+    \begin{equation}
+    \mathbf{R}\mathbf{n} = \mathbf{n}
+    \end{equation}
+    $$
