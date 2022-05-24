@@ -1,6 +1,6 @@
 # 3D Rigid Body Motion
 > **Goal of Study**
-> 1. 3차원 공간 상의 강체 기하학(회전 행렬, 변환 행렬, 쿼터니온, 오일러 각)에 대해 학습
+> 1. 3차원 공간 상의 강체 기하학(회전 행렬, 이동 행렬, 쿼터니온, 오일러 각)에 대해 학습
 > 2. `Eigen Library`과 기하학 모듈의 사용법에 대해 학습
 
 * 3차원 공간 상의 강체의 운동은 어떻게 기술하는 방법에 대해 학습
@@ -45,8 +45,89 @@
     * 행렬 $\mathbf{R}$은 회전 행렬
 * 회전 행렬의 속성
     * 행렬식의 값이 1인 직교 행렬
-        $$ \mathbf{SO}(n) = \left\{
-            \mathbf{R} \in \mathbb{R} \vert 
+        $$ 
+        \begin{equation}
+        \mathbf{SO}(n) = \left\{
+            \mathbf{R} \in \mathbb{R}^{n\times n} \vert 
             \mathbf{R} \mathbf{R}^T = \mathbf{I}, 
             \det\left(\mathbf{R}\right) = 1
-             \right\}$$
+             \right\}
+        \end{equation}
+        $$
+    * $SO\left(n\right)$ 은 *special orthogonal group* ("group"은 다음 챕터에)
+    * $SO\left(3\right)$ 은 3차원 공간 상에서의 회전
+    * 회전 행렬은 직교(orthogonal)하기 때문에 역행렬(i.e. 전치행렬)은 반대방향 회전을 의미
+        $$
+        \begin{equation}
+        \mathbf{a}' = \mathbf{R}^{-1}\mathbf{a} = \mathbf{R}^T\mathbf{a}
+        \end{equation}
+        $$
+* 유클리드 변환(Euclidean transformation)은 회전과 이동을 포함
+  $$
+  \begin{equation}
+  \mathbf{a}' = \mathbf{R}\mathbf{a} + \mathbf{t}
+  \end{equation}
+  $$
+    * 여기서 $\mathbf{t}$는 이동 벡터
+    * 2번 좌표계에서 1번 좌표계로의 변환은 아래와 같이 표현
+      $$
+      \begin{equation}
+      \mathbf{a}_1 = \mathbf{R}_{12}\mathbf{a}_2 + \mathbf{t}_{12}
+      \end{equation}
+      $$
+    * 반대 방향으로의 변환을 $\mathbf{R}_{12}$, $\mathbf{t}_{12}$로 표현하면 아래와 같음
+      $$
+      \begin{aligned}
+      \mathbf{R}_{12}\mathbf{a}_2 &= \mathbf{a}_1 - \mathbf{t}_{12}\\
+      \mathbf{a}_2 &= \mathbf{R}_{12}^T\left(\mathbf{a}_1 - \mathbf{t}_{12}\right)\\
+      \mathbf{a}_2 &= \mathbf{R}_{12}^T\mathbf{a}_1 - \mathbf{R}_{12}^T\mathbf{t}_{12}
+      \end{aligned}
+      $$
+    * 회전의 경우 $\mathbf{R}_{21} = \mathbf{R}_{12}^T$ 이지만, 
+    * 이동의 경우 $\mathbf{t}_{21} = -\mathbf{R}_{12}^T\mathbf{t}_{12} \neq -\mathbf{t}_{12}$ 
+
+### 변환 행렬과 동차 좌표계(Transformation Matrix and Homogeneous Coordinate)
+* $\mathbf{R}_1, \mathbf{t}_1$ 과 $\mathbf{R}_2, \mathbf{t}_2$ 를 이용한 두개의 변환
+    $$
+    \mathbf{b} = \mathbf{R}_1\mathbf{a} + \mathbf{t}_1
+    \mathbf{c} = \mathbf{R}_2\mathbf{b} + \mathbf{t}_2
+    $$
+  에 대해서 $\mathbf{a}$에서 $\mathbf{c}$로의 변환은 다음과 같음
+    $$
+    \mathbf{c} = \mathbf{R}_2\left(\mathbf{R}_1\mathbf{a} + \mathbf{t}_1\right) + \mathbf{t}_2
+    $$
+* 변환 식을 좀 더 단순화 하면 다음과 같음
+    $$
+    \begin{equation}
+    \begin{bmatrix}\mathbf{a}' \\ 1\end{bmatrix} = 
+    \begin{bmatrix}\mathbf{R} & \mathbf{t} \\ \mathbf{0}^T & 1\end{bmatrix}\begin{bmatrix}\mathbf{a} \\ 1\end{bmatrix} \overset{\Delta}{=}
+    \mathbf{T}\begin{bmatrix}\mathbf{a} \\ 1\end{bmatrix}
+    \end{equation}
+    $$
+* 3차원 벡터의 끝에 하나의 차원을 추가하여 **동차 좌표계**라 불리는 4차원의 벡터로 변환하는 수학적 트릭을 사용
+* $\mathbf{T}$는 변환 행렬
+* 임시로 $\mathbf{a}$의 동차 좌표계를 $\tilde{\mathbf{a}}$로 쓰면 다음과 같이 간단히 식을 표현
+    $$
+    \begin{equation}
+    \begin{matrix}
+    \tilde{\mathbf{b}} = \mathbf{T}_1\tilde{\mathbf{a}},& 
+    \tilde{\mathbf{c}} = \mathbf{T}_2\tilde{\mathbf{b}} &\Rightarrow&
+    \tilde{\mathbf{c}} = \mathbf{T}_2\mathbf{T}_1\tilde{\mathbf{a}}
+    \end{matrix}
+    \end{equation}
+    $$
+* 동차 좌표계를 표현할 때 특별히 문제가 없다면 간단히 $\mathbf{b} = \mathbf{T}\mathbf{a}$로만 표현
+* 변환 행렬 $\mathbf{T}$는 좌상단은 회전 행렬, 우상단은 이동 행렬, 좌하단은 $\mathbf{0}$행렬, 우하단은 1인 특별한 구조를 갖고 있음
+* 이를 *Special Euclidean Group* 이라 부르고 아래와 같이 씀
+    $$
+    \begin{equation}
+    SE\left(3\right) = \left\{\mathbf{T} = 
+    \begin{bmatrix}\mathbf{R} & \mathbf{t} \\ \mathbf{0}^T & 1\end{bmatrix} \in \mathbb{R}^{4\times4} \vert \mathbf{R} \in SO\left(3\right), \mathbf{t} \in \mathbb{R}^3\right\}
+    \end{equation}
+    $$
+* 이에 대한 역행렬은 다음과 같이 쓸 수 있음
+    $$ 
+    \begin{equation}
+    \mathbf{T}^{-1} = \begin{bmatrix}\mathbf{R}^T & -\mathbf{R}^T\mathbf{t} \\ \mathbf{0}^T & 1\end{bmatrix}
+    \end{equation}
+    $$
