@@ -74,18 +74,18 @@
 
 #### Hokuyo UTM-30LX
 
-- Field of View (FOV): $$180^{\circ}$$ 
-- Angular resolution: $$0.25^{\circ}$$ 
+- Field of View (FOV): $$180^{\circ}$$
+- Angular resolution: $$0.25^{\circ}$$
 - Scan raet : 40 line/sec
 - 회전모터: $$180^{\circ}/sec$$ between $$-90^{\circ}$$ and $$90^{\circ}$$
   - 수평방향을 스캔하는 2D 라이다를 회전 모터를 이용해 롤 방향 회전시켜서 데이터를 얻는 것으로 보임.
-  - 다른 라이다를 사용할 경우에는 그에 맞게 라이다의 point cloud를 처리해야 함. 
+  - 다른 라이다를 사용할 경우에는 그에 맞게 라이다의 point cloud를 처리해야 함.
 
 ## Software System Overview
 
 - $$\hat{\mathcal{P}}$$: 레이저 스캔을 통해 받아진 점들의 집합
-- $$\mathcal{P}$$: sweep _k_동안 받아진 각 스캔을 통해 받아진 $$\hat{\mathcal{P}}$$를 하나로 합쳐진 점들의 집합. 
-  - 각 스캔 간의 시간 차이에 따른 모션 보상이 이루어져서 합져침. 
+- $$\mathcal{P}$$: sweep _k_동안 받아진 각 스캔을 통해 받아진 $$\hat{\mathcal{P}}$$를 하나로 합쳐진 점들의 집합.
+  - 각 스캔 간의 시간 차이에 따른 모션 보상이 이루어져서 합져침.
   - odometry와 mapping에 모두 사용됨.
 
 ![Lidar Measurements](../figures/LOAM_lidar_measurement.png)
@@ -161,7 +161,7 @@ $$
 1. $$i \in \tilde{\mathcal{H}}_{k+1}$$를 선택한다.
 1. $$i$$와 가장 가까운 점 $$j\in \bar{\mathcal{P}}_{k}$$를 구한다.
 1. $$j$$와 연속적으로 위치한 같은 scan 상의 점 $$l\in \bar{\mathcal{P}}_{k}$$을 찾는다.
-1. $$j$$와 연속적으로 위치한 다른 scan 상의 점 $$m\in \bar{\mathcal{P}}_{k}$$을 찾는다. 
+1. $$j$$와 연속적으로 위치한 다른 scan 상의 점 $$m\in \bar{\mathcal{P}}_{k}$$을 찾는다.
 1. 이렇게 구한 $$(j,l,m)$$이 Planar points라는 것을 증명하기 위해 Local Surface의 Smoothness $$𝒄$$ 를 계산한다.
 1. $$(j,l,m)$$이 평면 패치 특징점이면, $$i$$와 $$(j,l,m)$$ plane 사이의 거리를 다음의 공식으로 구하고, 이것들을 최소화하다록 최적화를 수행한다.
 
@@ -175,7 +175,7 @@ $$
 
 - 라이다 모션은 sweep동안 constant angular and linear velocity로 모델링함.
   
-  - 서로 다른 시간에 들어온 스캔 데이터의 포즈를 보간하여 사용할 수 있게 됨. 
+  - 서로 다른 시간에 들어온 스캔 데이터의 포즈를 보간하여 사용할 수 있게 됨.
 - $$t$$: 현재 시간
 - $$t_{k+1}$$: _k+1_ sweep의 시작시간
 - $$T^{L}_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$$: 시간 $$[t_{k+1}, t]$$ 사이의 라이다 포즈 변환 행렬
@@ -206,7 +206,7 @@ $$
 
 ## Lidar Mapping
 
-- 라이다 매핑은 sweep이 끝난 순간마다 (1Hz) 수행된다. 
+- 라이다 매핑은 sweep이 끝난 순간마다 (1Hz) 수행된다.
 - sweep이 끝나면, odomtery는 $$\bar{\mathcal{P}}_{k+1}$$와 $$T^L_{k+1}$$을 출력한다.
 - $$\bar{\mathcal{P}}_{k+1}$$와 맵 상의 점들과의 상관관계를 구하고 이를 이용하여 odometry에서 출력한 포즈의 오차를 줄임과 동시에 맵 상에 등록하는 것이 매핑의 핵심이다.
 - 특징점을 추출하는 방법은 odometry와 동일하지만 odomtery보다 10배 많은 수의 특징점을 사용하여 최적화를 수행한다.
@@ -311,5 +311,5 @@ $$
 #### Chain rule
 
 $$
-\frac{\partial d_{\mathcal{H}}}{\partial \delta \xi} = \frac{\partial \vec{\mathbf{c}}^T\left(\tilde{\mathbf{X}}^L_{(k,i)} - \bar{\mathbf{X}}^L_{(k-1,j)}\right)}{\partial \delta \xi} = \vec{\mathbf{c}}^T\cdot\frac{\partial \tilde{\mathbf{X}}^L_{(k,i)}}{\partial \delta \xi}	
+\frac{\partial d_{\mathcal{H}}}{\partial \delta \xi} = \frac{\partial \vec{\mathbf{c}}^T\left(\tilde{\mathbf{X}}^L_{(k,i)} - \bar{\mathbf{X}}^L_{(k-1,j)}\right)}{\partial \delta \xi} = \vec{\mathbf{c}}^T\cdot\frac{\partial \tilde{\mathbf{X}}^L_{(k,i)}}{\partial \delta \xi} 
 $$
