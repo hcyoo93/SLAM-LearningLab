@@ -98,7 +98,7 @@
     
   * Error Function Derivation
     
-    ![pose-graph-cost](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/pose-graph-cost.png)
+    ![pose-graph-cost](../figures/slam-book/pose-graph-cost.png)
     
     * Why Manifold?
       * [From Least Squares to ICP [grisetti 16]](../reference/From Least Squares to ICP [grisetti 16].pdf)
@@ -114,19 +114,19 @@
 
 * Feature-based Visual Odometry에서 자주 사용되는 방법으로 여러 대의 카메라 혹은 한 대의 카메라이지만 서로 다른 시간에 동일한 환경을 촬영하여 공통된 특징이 관측되는 경우, 이 공통된 특징 사이의 관계를 이용하여 카메라의 Pose 뿐만이 아니라 카메라에서 측정된 특징의 3차원 좌표까지 최적화를 한다.
 
- ![Bundle Adjustment](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/ba-description.png)
+ ![Bundle Adjustment](../figures/slam-book/ba-description.png)
 
 * Robust 커널을 이용하여 추정의 강인성을 향상시킬 수 있다.
   * Outlier 혹은 잘못된 data association에도 잘 추정할 수 있어야 한다.
 * [Graph-Based SLAM: A Least Squares Approach to SLAM using Pose Graphs [Cyrill]](../reference/Graph-Based SLAM_A Least Squares Approach to SLAM using Pose Graphs [Cyrill].pdf)
 
-![Jacobian Structure](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/Jacobian-structure.png)
+![Jacobian Structure](../figures/slam-book/Jacobian-structure.png)
 
-![](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/Hessian-matrix-structure1.png)
+![H matrix Structure1](../figures/slam-book/Hessian-matrix-structure1.png)
 
-![H matrix structure2](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/Hessian-matrix-structure2.png)
+![H matrix structure2](../figures/slam-book/Hessian-matrix-structure2.png)
 
-![After marginalization](/Users/sejongheo/Github/SLAM/SLAM-LearningLab/figures/slam-book/after-marginalization.png)
+![After marginalization](../figures/slam-book/after-marginalization.png)
 
 ## 논문 (Least Squares Optimization/ From Theory to Practice)
 
