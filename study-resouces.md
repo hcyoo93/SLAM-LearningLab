@@ -78,9 +78,9 @@ SLAM은 거의 40년의 역사를 가지고 있습니다. 1986년 발표된 이�
       * 여러 Filtering 관련 책을 보았지만 이 책이 가장 깔끔하게 모든 필터링 기법에 대해서 설명한다고 생각함.
       * [Basics of Sensor Fusion](reference/papers/Basics%20of%20Sensor%20Fusion%20[sarkka%2020].pdf) 이라는 자료도 있음.  
 1. Non-linear optimization (특히, least-square)
-    * [Least Squares Optimization: from Theory to Practice by Giorgio Grisetti (2020)](reference/papers/From%20Least%20Squares%20to%20ICP%20%5Bgrisetti%2016%5D.pdf)
+    * [Least Squares Optimization: from Theory to Practice by Giorgio Grisetti (2020)](./reference/papers/Least Squares Optimization_from Theory to Practice by Giorgio Grisetti (2020).pdf)
       * 최신 Robotica에서 사용하는 비선형 최적화에 대해서 정리한 논문으로 저자의 tutorial slide나 강의 등을 참고하면 좋음. 하지만 하나로만 공부한다면 이 자료를 추천함.
-    * [Factor Graphs for Robot Perception by Frank Dellart](reference/papers/Factor%20Graphs%20for%20Robot%20Perception%20[Dellaert%2017].pdf)
+    * [Factor Graphs for Robot Perception by Frank Dellart](./reference/papers/Factor%20Graphs%20for%20Robot%20Perception%20[Dellaert%2017].pdf)
         * SLAM-backend에서 많이 사용되는 Gtsam이라는 툴을 만든 교수님의 Technical Report
         * Factor Graph의 기본과 Sparsity, 선형대수 연산으리 빠르게 하기 위한 Parameter ordering 등에 대한 자료
         * SLAM-backend는 이것으로 정리가능하지만 ... 책 한권 분량이며 내용이 어려움... (같이 별도로 공부해볼 사람은 저랑 같이 심화로 ...)
